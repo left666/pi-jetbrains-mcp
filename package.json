@@ -1,0 +1,82 @@
+{
+  "name": "@giuseppe.trisciuoglio/pi-jetbrains-mcp",
+  "version": "1.0.0",
+  "description": "Expose JetBrains IDE MCP Server tools as native pi tools across multiple IDEs.",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-extension",
+    "mcp",
+    "model-context-protocol",
+    "jetbrains",
+    "intellij",
+    "phpstorm",
+    "webstorm",
+    "pycharm",
+    "goland",
+    "ai-agent"
+  ],
+  "author": "Giuseppe Trisciuoglio",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giuseppe-trisciuoglio/pi-jetbrains-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/giuseppe-trisciuoglio/pi-jetbrains-mcp/issues"
+  },
+  "homepage": "https://github.com/giuseppe-trisciuoglio/pi-jetbrains-mcp#readme",
+  "type": "module",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "config.example.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "pi": {
+    "name": "jetbrains-mcp",
+    "displayName": "JetBrains MCP",
+    "description": "Connect JetBrains IDE MCP Server endpoints and expose their tools to pi.",
+    "category": "developer-tools",
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "scripts": {
+    "build": "echo 'pi loads TypeScript extensions directly; no build step is required.'",
+    "check": "npm run typecheck",
+    "clean": "echo 'No build artifacts to clean.'",
+    "security:audit": "npm audit --omit=dev",
+    "test": "npm run typecheck && npm run test:smoke",
+    "test:smoke": "tsx test/smoke-test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0"
+  },
+  "overrides": {
+    "@hono/node-server": "2.0.11",
+    "fast-uri": "3.1.4"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "0.80.2",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.6.0",
+    "typebox": "1.1.38"
+  }
+}

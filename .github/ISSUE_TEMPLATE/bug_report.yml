@@ -1,0 +1,46 @@
+name: Bug report
+description: Report unexpected behavior in the JetBrains MCP integration.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve the extension. Do not include credentials, endpoint headers, or other secrets.
+  - type: input
+    id: extension-version
+    attributes:
+      label: Extension version
+      description: The version shown by `npm list @giuseppe.trisciuoglio/pi-jetbrains-mcp`.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Include your pi version, Node.js version, JetBrains IDE product, and IDE version.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: List the endpoint setup and the commands or actions that reproduce the problem.
+      placeholder: |
+        1. Start ...
+        2. Run `/jetbrains ...`
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and non-sensitive logs
+    validations:
+      required: true

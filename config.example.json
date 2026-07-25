@@ -1,0 +1,17 @@
+{
+  "_comment": "Copy this file to config.json or use /jetbrains add-endpoint. Each tool is registered as <id>__<tool>, so tools from different IDEs do not collide. Endpoint identifiers must be unique and match /^[a-z][a-z0-9_]*$/.",
+  "endpoints": [
+    {
+      "id": "phpstorm",
+      "url": "http://127.0.0.1:64342/stream",
+      "headers": {},
+      "connectTimeoutMs": 10000
+    },
+    {
+      "id": "idea",
+      "url": "http://127.0.0.1:64399/stream",
+      "headers": {},
+      "connectTimeoutMs": 10000
+    }
+  ]
+}
