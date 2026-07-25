@@ -30,6 +30,7 @@
   "engines": {
     "node": ">=22.19.0"
   },
+  "packageManager": "npm@11.6.2",
   "files": [
     "src",
     "README.md",
