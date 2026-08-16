@@ -1,0 +1,26 @@
+{
+  "skill_name": "pi-extension-dev",
+  "evals": [
+    {
+      "id": 1,
+      "name": "custom-tool-with-state",
+      "prompt": "帮我写一个 Pi 扩展，注册一个名为 `note` 的自定义工具，让 LLM 可以添加和列出笔记。笔记要在会话重启后还能恢复。把它放到 ~/.pi/agent/extensions/notes.ts。",
+      "expected_output": "A complete .ts extension file using pi.registerTool with name 'note', Type.Object parameters for action (list/add) using StringEnum, persistent state via pi.appendEntry + session_start reconstruction, and proper error handling. Should follow Pi conventions: factory function export, typebox for schema, ctx.ui for any user interaction.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "tool-call-gate",
+      "prompt": "我想给 Pi 加个扩展，拦截所有 bash 工具调用，如果命令里包含 `git push --force` 或 `rm -rf /` 就阻止执行并让 agent 立即停止。同时扩展加载时通知我。",
+      "expected_output": "Extension using pi.on('tool_call') with isToolCallEventType('bash', event), checking event.input.command for dangerous patterns, returning { block: true, reason: ..., terminate: true }. Plus pi.on('session_start') with ctx.ui.notify. Should mention testing via pi -e or /reload.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "file-mutation-gotcha",
+      "prompt": "我写了一个自定义工具来修改 ts 文件，但发现当 LLM 同时调用我的工具和内置 edit 工具改同一个文件时，有一个修改会丢失。这是为什么？怎么解决？",
+      "expected_output": "Should explain the parallel tool execution race condition (both read original content, compute different updates, last write wins), and prescribe withFileMutationQueue(absolutePath, async () => { ... }) wrapping the entire read-modify-write window. Should emphasize resolving to absolute path first, that the queue is shared with built-in edit/write, and that the whole window (not just write) must be queued.",
+      "files": []
+    }
+  ]
+}
