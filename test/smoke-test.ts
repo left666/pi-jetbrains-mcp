@@ -5,6 +5,7 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { IsObject } from "typebox";
 import extension from "../src/index.ts";
 import { jsonSchemaToTypebox } from "../src/schema.ts";
+import { MCP_TOOL_CATEGORIES, TOOL_CATEGORIES, shouldRegisterTool } from "../src/tool-categories.ts";
 
 const root = process.cwd();
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8")) as {
@@ -17,14 +18,24 @@ assert.deepEqual(packageJson.pi?.extensions, ["./src/index.ts"]);
 assert.ok(existsSync(join(root, "src", "index.ts")), "pi extension entry point must exist");
 
 const configExample = JSON.parse(readFileSync(join(root, "config.example.json"), "utf8")) as {
-	endpoints?: Array<{ id?: string; url?: string }>;
+	endpoints?: Array<{
+		id?: string;
+		url?: string;
+		nameMode?: string;
+		includeCategories?: unknown[];
+		excludeCategories?: unknown[];
+	}>;
 };
 assert.ok(configExample.endpoints && configExample.endpoints.length > 0);
-for (const endpoint of configExample.endpoints ?? []) {
-	assert.match(endpoint.id ?? "", /^[a-z][a-z0-9_]*$/);
-	assert.ok(endpoint.url, "each example endpoint must include a URL");
-	assert.doesNotThrow(() => new URL(endpoint.url!));
-}
+assert.equal(configExample.endpoints?.[0]?.nameMode, "prefixed");
+assert.deepEqual(configExample.endpoints?.[0]?.includeCategories, []);
+assert.deepEqual(configExample.endpoints?.[0]?.excludeCategories, []);
+assert.equal(TOOL_CATEGORIES.length, 17);
+assert.equal(Object.keys(MCP_TOOL_CATEGORIES).length, 58);
+assert.equal(shouldRegisterTool("read_file", ["Read tools"], []).register, true);
+assert.equal(shouldRegisterTool("read_file", ["Read tools"], ["Read tools"]).register, false);
+assert.equal(shouldRegisterTool("unknown_tool", [], []).register, true);
+assert.equal(shouldRegisterTool("unknown_tool", ["Read tools"], []).register, false);
 
 const parameters = jsonSchemaToTypebox({
 	type: "object",

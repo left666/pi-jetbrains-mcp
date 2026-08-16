@@ -33,6 +33,7 @@ import {
 	type LoadedConfig,
 } from "./config.ts";
 import { jsonSchemaToTypebox, type JsonSchema } from "./schema.ts";
+import { shouldRegisterTool, type ToolCategory } from "./tool-categories.ts";
 
 const STATUS_KEY = "jetbrains-mcp";
 const ID_REGEX = /^[a-z][a-z0-9_]*$/;
@@ -46,7 +47,8 @@ type PiContent =
 interface RegisteredTool {
 	endpointId: string;
 	mcpName: string;
-	/** False after the endpoint re-listed and this tool disappeared. */
+	category?: ToolCategory;
+	/** False after the endpoint re-listed and this tool disappeared or was filtered. */
 	live: boolean;
 }
 
@@ -103,6 +105,7 @@ export default function jetbrainsMcpExtension(pi: ExtensionAPI) {
 	const connectFailed = new Map<string, boolean>();
 	/** Map toolName -> bookkeeping. Live tools are the ones the IDE currently exposes. */
 	const registered = new Map<string, RegisteredTool>();
+	const identityToName = new Map<string, string>();
 
 	// Build a client per validated endpoint. Endpoints with errors are skipped
 	// — the extension will surface the error via a boot notification and the
@@ -190,20 +193,27 @@ export default function jetbrainsMcpExtension(pi: ExtensionAPI) {
 	}
 
 	/** Pick a unique, valid pi tool name. With prefix collisions are very rare. */
-	function pickUniqueName(endpointId: string, rawName: string): string {
-		const candidate = prefixedToolName(endpointId, rawName);
+	function pickUniqueName(endpointId: string, rawName: string, mode: EndpointConfig["nameMode"]): string {
+		const base = mode === "original" ? sanitizeToolName(rawName) : prefixedToolName(endpointId, rawName);
 		const taken = new Set<string>();
 		pi.getAllTools().forEach((t) => taken.add(t.name));
 		registered.forEach((_, n) => taken.add(n));
-		if (!taken.has(candidate)) return candidate;
+		if (!taken.has(base)) return base;
 		let i = 2;
-		while (taken.has(`${candidate}_${i}`)) i++;
-		return `${candidate}_${i}`;
+		while (taken.has(`${base}_${i}`)) i++;
+		return `${base}_${i}`;
 	}
 
-	function registerToolFromMcp(endpointId: string, mcpTool: McpTool): string {
-		const name = pickUniqueName(endpointId, mcpTool.name);
+	function toolIdentity(endpointId: string, mcpName: string): string {
+		return `${endpointId}\u0000${mcpName}`;
+	}
 
+	function registerToolFromMcp(
+		endpointId: string,
+		mcpTool: McpTool,
+		name: string,
+		category?: ToolCategory,
+	): string {
 		const inputSchema: JsonSchema =
 			mcpTool.inputSchema && typeof mcpTool.inputSchema === "object"
 				? (mcpTool.inputSchema as JsonSchema)
@@ -292,7 +302,8 @@ export default function jetbrainsMcpExtension(pi: ExtensionAPI) {
 			},
 		});
 
-		registered.set(name, { endpointId, mcpName: mcpTool.name, live: true });
+		registered.set(name, { endpointId, mcpName: mcpTool.name, category, live: true });
+		identityToName.set(toolIdentity(endpointId, mcpTool.name), name);
 		return name;
 	}
 
@@ -304,14 +315,10 @@ export default function jetbrainsMcpExtension(pi: ExtensionAPI) {
 	 */
 	async function syncToolsFor(ctx: ExtensionContext, endpointId: string): Promise<number> {
 		const c = clients.get(endpointId);
-		if (!c || !c.isConnected()) return 0;
+		const endpoint = endpoints.find((e) => e.id === endpointId);
+		if (!c || !c.isConnected() || !endpoint) return 0;
 
-		// Mark all currently-known tools from this endpoint as stale.
-		for (const info of registered.values()) {
-			if (info.endpointId === endpointId) info.live = false;
-		}
-
-		let tools: McpTool[] = [];
+		let tools: McpTool[];
 		try {
 			tools = await c.listTools();
 		} catch (err) {
@@ -319,19 +326,36 @@ export default function jetbrainsMcpExtension(pi: ExtensionAPI) {
 			return 0;
 		}
 
+		for (const info of registered.values()) {
+			if (info.endpointId === endpointId) info.live = false;
+		}
+
 		let registeredCount = 0;
+		let filteredUnknown = 0;
 		for (const t of tools) {
 			if (!t?.name) continue;
-			const existing = Array.from(registered.values()).find(
-				(info) => info.endpointId === endpointId && info.mcpName === t.name,
-			);
-			if (existing) {
-				existing.live = true;
-				registeredCount++;
+			const selection = shouldRegisterTool(t.name, endpoint.includeCategories, endpoint.excludeCategories);
+			if (!selection.register) {
+				if (!selection.category && endpoint.includeCategories.length > 0) filteredUnknown++;
 				continue;
 			}
-			registerToolFromMcp(endpointId, t);
+			const identity = toolIdentity(endpointId, t.name);
+			const existingName = identityToName.get(identity);
+			if (existingName) {
+				const existing = registered.get(existingName);
+				if (existing) {
+					existing.live = true;
+					existing.category = selection.category;
+					registeredCount++;
+					continue;
+				}
+			}
+			const name = pickUniqueName(endpointId, t.name, endpoint.nameMode);
+			registerToolFromMcp(endpointId, t, name, selection.category);
 			registeredCount++;
+		}
+		if (filteredUnknown > 0) {
+			notify(ctx, `Endpoint '${endpointId}' skipped ${filteredUnknown} undocumented tool(s) because includeCategories is configured.`, "warning");
 		}
 		return registeredCount;
 	}
@@ -558,11 +582,14 @@ export default function jetbrainsMcpExtension(pi: ExtensionAPI) {
 					return;
 				}
 				const ep: EndpointConfig = {
-					id,
-					url,
-					headers: {},
-					connectTimeoutMs: 10_000,
-				};
+				id,
+				url,
+				headers: {},
+				connectTimeoutMs: 10_000,
+				nameMode: "prefixed",
+				includeCategories: [],
+				excludeCategories: [],
+			};
 				endpoints.push(ep);
 				try {
 					persistConfig();

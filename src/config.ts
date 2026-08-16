@@ -29,11 +29,20 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { TOOL_CATEGORIES, type ToolCategory } from "./tool-categories.ts";
+
+export type ToolNameMode = "prefixed" | "original";
+
+export const DEFAULT_TOOL_NAME_MODE: ToolNameMode = "prefixed";
+
 export interface EndpointConfig {
 	id: string;
 	url: string;
 	headers: Record<string, string>;
 	connectTimeoutMs: number;
+	nameMode: ToolNameMode;
+	includeCategories: ToolCategory[];
+	excludeCategories: ToolCategory[];
 }
 
 export interface LoadedConfig {
@@ -66,8 +75,35 @@ function readRawConfig(): { value: unknown; error?: string } {
 	}
 }
 
+function normalizeCategories(
+	r: Record<string, unknown>,
+	field: "includeCategories" | "excludeCategories",
+	errors: string[],
+	endpointId: string,
+): ToolCategory[] {
+	const value = r[field];
+	if (value === undefined) return [];
+	if (!Array.isArray(value)) {
+		errors.push(`endpoint '${endpointId}': '${field}' must be an array of category titles.`);
+		return [];
+	}
+	const categories: ToolCategory[] = [];
+	for (const category of value) {
+		if (typeof category !== "string" || !(TOOL_CATEGORIES as readonly string[]).includes(category)) {
+			errors.push(`endpoint '${endpointId}': invalid ${field} category '${String(category)}'.`);
+			continue;
+		}
+		if (!categories.includes(category as ToolCategory)) categories.push(category as ToolCategory);
+	}
+	return categories;
+}
+
 /** Normalize one endpoint entry. Returns null when id/url are missing. */
-function normalizeEndpoint(raw: unknown, fallbackTimeout: number): EndpointConfig | null {
+function normalizeEndpoint(
+	raw: unknown,
+	fallbackTimeout: number,
+	errors: string[] = [],
+): EndpointConfig | null {
 	if (!raw || typeof raw !== "object") return null;
 	const r = raw as Record<string, unknown>;
 	const id = typeof r.id === "string" ? r.id.trim() : "";
@@ -86,7 +122,20 @@ function normalizeEndpoint(raw: unknown, fallbackTimeout: number): EndpointConfi
 		connectTimeoutMs = r.connectTimeoutMs;
 	}
 
-	return { id, url, headers, connectTimeoutMs };
+	const nameMode = r.nameMode === undefined ? DEFAULT_TOOL_NAME_MODE : r.nameMode;
+	if (nameMode !== "prefixed" && nameMode !== "original") {
+		errors.push(`endpoint '${id}': 'nameMode' must be 'prefixed' or 'original'.`);
+	}
+
+	return {
+		id,
+		url,
+		headers,
+		connectTimeoutMs,
+		nameMode: nameMode === "original" ? "original" : DEFAULT_TOOL_NAME_MODE,
+		includeCategories: normalizeCategories(r, "includeCategories", errors, id),
+		excludeCategories: normalizeCategories(r, "excludeCategories", errors, id),
+	};
 }
 
 /** Detect the legacy {url, headers, connectTimeoutMs} single-endpoint shape. */
@@ -127,7 +176,7 @@ function applyEnvOverrides(
 	warnings.push(`JETBRAINS_MCP_URL added endpoint 'default': ${envUrl}`);
 	return [
 		...endpoints,
-		{ id: "default", url: envUrl, headers: {}, connectTimeoutMs: DEFAULT_CONNECT_TIMEOUT_MS },
+		{ id: "default", url: envUrl, headers: {}, connectTimeoutMs: DEFAULT_CONNECT_TIMEOUT_MS, nameMode: DEFAULT_TOOL_NAME_MODE, includeCategories: [], excludeCategories: [] },
 	];
 }
 
@@ -174,7 +223,7 @@ export function loadConfig(): LoadedConfig {
 			const list = (raw as { endpoints: unknown[] }).endpoints;
 			const seen = new Set<string>();
 			for (let i = 0; i < list.length; i++) {
-				const ep = normalizeEndpoint(list[i], DEFAULT_CONNECT_TIMEOUT_MS);
+				const ep = normalizeEndpoint(list[i], DEFAULT_CONNECT_TIMEOUT_MS, errors);
 				if (!ep) {
 					errors.push(`endpoints[${i}]: missing or invalid 'id' / 'url'.`);
 					continue;
