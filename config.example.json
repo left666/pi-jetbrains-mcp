@@ -1,5 +1,5 @@
 {
-  "_comment": "Copy this file to config.json or use /jetbrains add-endpoint. tool name mode controls prefixed/original registration; category lists use exact tools_Introduction.md headings. includeCategories filters to selected categories, then excludeCategories removes categories. Endpoint identifiers must be unique and match /^[a-z][a-z0-9_]*$/.",
+  "_comment": "Copy this file to config.json or use /jetbrains add-endpoint. tool name mode controls prefixed/original registration; category lists use exact tools_introduction.md headings. includeCategories filters to selected categories, then excludeCategories removes categories. Endpoint identifiers must be unique and match /^[a-z][a-z0-9_]*$/.",
   "endpoints": [
     {
       "id": "phpstorm",

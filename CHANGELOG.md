@@ -9,7 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 ### Added
 
 - Endpoint-level tool name modes (`prefixed` and `original`) with deterministic collision suffixes.
-- Endpoint-level filtering by the categories documented in `tools_Introduction.md`.
+- Endpoint-level filtering by the categories documented in `tools_introduction.md`.
 
 ## [1.0.0] - 2026-07-25
 

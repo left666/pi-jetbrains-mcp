@@ -39,7 +39,7 @@
     "CONTRIBUTING.md",
     "SECURITY.md",
     "config.example.json",
-    "tools_Introduction.md"
+    "tools_introduction.md"
   ],
   "publishConfig": {
     "access": "public",

@@ -7,7 +7,7 @@
 
 > Connect one or more JetBrains IDE MCP Server endpoints and use their tools directly from [pi](https://pi.dev).
 
-Each endpoint defaults to `<endpoint>__<tool>`. You can opt an endpoint into `original` names in `config.json`; names are still sanitized for pi and collisions use `_2`, `_3`, and so on. Category filtering is also endpoint-specific and uses the exact headings from [`tools_Introduction.md`](tools_Introduction.md).
+Each endpoint defaults to `<endpoint>__<tool>`. You can opt an endpoint into `original` names in `config.json`; names are still sanitized for pi and collisions use `_2`, `_3`, and so on. Category filtering is also endpoint-specific and uses the exact headings from [`tools_introduction.md`](tools_introduction.md).
 
 ## Features
 
@@ -123,7 +123,7 @@ You can configure endpoints entirely through `/jetbrains add-endpoint` and `/jet
 | `headers` | No | Additional HTTP request headers for that endpoint. |
 | `connectTimeoutMs` | No | Connection timeout in milliseconds. Defaults to `10000`. |
 | `nameMode` | No | `prefixed` (default) registers `<endpoint>__<tool>`; `original` registers the sanitized MCP name and adds suffixes on collisions. |
-| `includeCategories` | No | Exact `tools_Introduction.md` headings to allow. Empty means all categories. |
+| `includeCategories` | No | Exact `tools_introduction.md` headings to allow. Empty means all categories. |
 | `excludeCategories` | No | Exact headings to reject after `includeCategories`; empty means none. |
 
 ### Environment override
