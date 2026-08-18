@@ -13,7 +13,7 @@ Below you can find the list of tools provided by the MCP server.
 
 ### Analysis tools
 
-analyze\_calls
+analyze_calls
 
 Builds the IDE Call Hierarchy tree for a method, function, constructor, or supported type target. Use it to see who calls a symbol (`INCOMING_CALLS`) or what the symbol calls (`OUTGOING_CALLS`).
 
@@ -44,7 +44,7 @@ The result is an expandable text tree. Each node includes `filePath` and `treePa
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-build\_project
+build_project
 
 Triggers building of the project or specified files, waits for completion, and returns build errors. Use this tool to build the project or compile files and get detailed information about compilation errors and warnings.
 
@@ -61,7 +61,7 @@ You have to use this tool after performing edits to validate if the edits are va
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-get\_file\_problems
+get_file_problems
 
 Analyzes the specified file for errors and warnings using IntelliJ inspections. Use this tool to identify coding issues, syntax errors, and other problems in a specific file.
 
@@ -83,7 +83,7 @@ Returns a list of problems, including severity, description, and location inform
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-get\_project\_dependencies
+get_project_dependencies
 
 Returns a list of all dependencies defined in the project. Provides structured information about library names.
 
@@ -92,7 +92,7 @@ Returns a list of all dependencies defined in the project. Provides structured i
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-get\_project\_modules
+get_project_modules
 
 Returns a list of all modules in the project with their types. Provides structured information about each module, including its name and type.
 
@@ -101,7 +101,7 @@ Returns a list of all modules in the project with their types. Provides structur
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-lint\_files
+lint_files
 
 Analyzes the specified files for errors and warnings using IntelliJ inspections. Use this tool to lint several files after editing them. Returns per-file problems with severity, description, and location information.
 
@@ -125,7 +125,7 @@ Batch responses may include file entries with `timedOut: true` and empty `proble
 
 ### Code Insight tools
 
-get\_symbol\_info
+get_symbol_info
 
 Retrieves information about the symbol at the specified position in the specified file. Provides the same information as IntelliJ IDEA's Quick Documentation feature. The information may include the symbol's name, signature, type, documentation, and other details, depending on the programming language.
 
@@ -150,7 +150,7 @@ This functionality relies on the [JetBrains AI Assistant](https://plugins.jetbr
 
 To guarantee strictly read-only access for an AI agent, use a database user with properly restricted (read-only) privileges and configure the data source to use that user.
 
-cancel\_sql\_query
+cancel_sql_query
 
 Cancel a running query using its unique ID.
 
@@ -159,7 +159,7 @@ Cancel a running query using its unique ID.
 *   `sessionId`: Query session ID.
     
 
-create\_database\_connection
+create_database_connection
 
 Creates a new database connection (data source) by name, DBMS (`dbms`), JDBC URL (`url`), and a flag to check the connection (`needToCheckDs`). All parameters are required. Returns connection diagnostic information.
 
@@ -176,7 +176,7 @@ Creates a new database connection (data source) by name, DBMS (`dbms`), JDBC URL
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-edit\_database\_connection
+edit_database_connection
 
 Edits an existing database connection (data source) identified by `connectionId`. Updates the connection's DBMS driver and JDBC URL; the connection `name` is preserved. Returns connection diagnostic information.
 
@@ -195,7 +195,7 @@ Do not use this tool for DDL data sources, as they have no underlying DBMS conne
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-execute\_sql\_query
+execute_sql_query
 
 Execute a SQL query against the given database connection.
 
@@ -210,7 +210,7 @@ If the query returns data, it is appended to the tool response in CSV format.
 *   `queryText`: SQL query to be executed.
     
 
-fetch\_query\_result
+fetch_query_result
 
 Fetches rows from an already executed query by its ID, starting at the given row offset. Returns the same shape as `execute_sql_query`: the `resultSetId` and the rendered result in CSV format.
 
@@ -225,7 +225,7 @@ Use this tool to paginate over a `resultSetId` previously returned by `execute_s
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-get\_database\_object\_description
+get_database_object_description
 
 Retrieves the structure of a database object (columns, types, keys, indexes) within a particular schema as a hierarchical text representation.
 
@@ -246,7 +246,7 @@ In case of ambiguity returns definitions of all applicable objects.
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-introspect\_schema
+introspect_schema
 
 Introspects a database schema, loading its metadata (tables, columns, and indexes) into the local model. Use this when a schema's `isIntrospected` flag is false and you need to investigate the schema's structure, or to refresh stale metadata. Returns the schema identifier with the updated introspection status.
 
@@ -261,11 +261,11 @@ Introspects a database schema, loading its metadata (tables, columns, and indexe
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-list\_database\_connections
+list_database_connections
 
 Retrieves a list of configured database connections or data sources in the project. For each connection returns its unique ID, name, DBMS, and driver name.
 
-list\_database\_schemas
+list_database_schemas
 
 Retrieves a list of database schemas in the specified database connection.
 
@@ -278,7 +278,7 @@ For each schema, the tool returns the schema's own name as well as the database 
 *   `selectedOnly`: True if only the schemas selected in the database tree should be listed; false if all schemas should be listed.
     
 
-list\_recent\_sql\_queries
+list_recent_sql_queries
 
 This feature is not available in free subscription plans.
 
@@ -302,7 +302,7 @@ For each query returns:
 *   `connectionId`: Unique connection ID.
     
 
-list\_schema\_object\_kinds
+list_schema_object_kinds
 
 Retrieves a list of supported schema object kinds for the given database connection. For each object kind, returns the object kind unique code and human-readable name.
 
@@ -311,7 +311,7 @@ Retrieves a list of supported schema object kinds for the given database connect
 *   `connectionId`: Unique connection ID.
     
 
-list\_schema\_objects
+list_schema_objects
 
 Retrieves a list of database objects within the given schema. For each object, returns the object name within the schema and its kind.
 
@@ -326,7 +326,7 @@ Retrieves a list of database objects within the given schema. For each object, r
 *   `kind`: Set this parameter to a particular object kind code to list only objects of that kind. Set it to null to retrieve all objects in the schema.
     
 
-preview\_table\_data
+preview_table_data
 
 Returns preview data of the table, view, materialized view, or other table-like object using a given database connection.
 
@@ -345,7 +345,7 @@ The tool returns table content in CSV format.
 *   `maxRowCount`: Maximum number of rows to return. Default is `100`.
     
 
-test\_database\_connection
+test_database_connection
 
 Returns connection diagnostic info:
 
@@ -369,7 +369,7 @@ These tools give an external client control over the IDE's debugger: it can set,
 
 For detailed instructions on how to set up and use this toolset, refer to [Agentic debugging](https://www.jetbrains.com/agentic-debugging.html).
 
-xdebug\_control\_session
+xdebug_control_session
 
 Controls the execution of a debug session. Use this tool to step through code, resume execution, pause, or stop the debug session.
 
@@ -382,11 +382,11 @@ Preconditions:
 
 Actions:
 
-*   **STEP\_INTO**: Step into the next method call
+*   **STEP_INTO**: Step into the next method call
     
-*   **STEP\_OVER**: Step over the current line
+*   **STEP_OVER**: Step over the current line
     
-*   **STEP\_OUT**: Step out of the current method
+*   **STEP_OUT**: Step out of the current method
     
 *   **RESUME**: Resume program execution until the next breakpoint
     
@@ -394,22 +394,22 @@ Actions:
     
 *   **STOP**: Stop the debug session
     
-*   **WAIT\_FOR\_PAUSE**: Wait until the session pauses (breakpoint hit or paused manually)
+*   **WAIT_FOR_PAUSE**: Wait until the session pauses (breakpoint hit or paused manually)
     
-*   **DRAIN\_EVENTS**: Drain tracepoint outputs for the session (breakpoint errors are drained for all actions)
+*   **DRAIN_EVENTS**: Drain tracepoint outputs for the session (breakpoint errors are drained for all actions)
     
 
 Important notes:
 
-*   If the program is running, use **WAIT\_FOR\_PAUSE** or **PAUSE** before `STEP_*`/`RESUME`.
+*   If the program is running, use **WAIT_FOR_PAUSE** or **PAUSE** before `STEP_*`/`RESUME`.
     
 *   Use a current `sessionId` from `[xdebug_get_debugger_status](about:blank#xdebug_get_debugger_status)` or `[xdebug_start_debugger_session](about:blank#xdebug_start_debugger_session)`. If a session stops, times out, or disappears, refresh the session list before the next session-scoped call.
     
 *   **RESUME** does NOT set breakpoints. If there are no enabled breakpoints (or none will be hit next), the program may run to completion and the session may stop without pausing.
     
-*   After **RESUME**, call **WAIT\_FOR\_PAUSE** to confirm the next suspension. If **WAIT\_FOR\_PAUSE** times out, consider **PAUSE** and re-check breakpoints.
+*   After **RESUME**, call **WAIT_FOR_PAUSE** to confirm the next suspension. If **WAIT_FOR_PAUSE** times out, consider **PAUSE** and re-check breakpoints.
     
-*   **DRAIN\_EVENTS** also requires an existing session; do not reuse a stale `sessionId` after the session has terminated.
+*   **DRAIN_EVENTS** also requires an existing session; do not reuse a stale `sessionId` after the session has terminated.
     
 
 Next call:
@@ -429,7 +429,7 @@ Status values in the result:
     
 *   `breakpointErrorsTail` is returned for any action
     
-*   `tracepointOutputsTail` is returned only for **DRAIN\_EVENTS**
+*   `tracepointOutputsTail` is returned only for **DRAIN_EVENTS**
     
 
 Event support scope:
@@ -443,18 +443,18 @@ Event support scope:
 
 *   `sessionId`: Debug session ID. Use the current ID returned by `[xdebug_get_debugger_status](about:blank#xdebug_get_debugger_status)` or `[xdebug_start_debugger_session](about:blank#xdebug_start_debugger_session)`. If a session has stopped, timed out, or disappeared, refresh the session list before reusing an old ID. Format: uses session name as ID by default; if multiple sessions share the same name, ID is `<sessionName>#<executionId>`. If null and exactly one active session exists, it is selected automatically. If multiple sessions are active and `sessionId` is omitted, the call fails. Default: null.
     
-*   `action`: Action to perform: **STEP\_INTO**, **STEP\_OVER**, **STEP\_OUT**, **RESUME**, **PAUSE**, **STOP**, **WAIT\_FOR\_PAUSE**, **DRAIN\_EVENTS**. Event draining is currently populated only by JVM-based debuggers (Java, Kotlin, etc.).
+*   `action`: Action to perform: **STEP_INTO**, **STEP_OVER**, **STEP_OUT**, **RESUME**, **PAUSE**, **STOP**, **WAIT_FOR_PAUSE**, **DRAIN_EVENTS**. Event draining is currently populated only by JVM-based debuggers (Java, Kotlin, etc.).
     
-*   `timeout`: Timeout in milliseconds to wait for action completion. Guidance: **STEP\_\***/**PAUSE** usually 5000-15000; **WAIT\_FOR\_PAUSE** usually 30000-120000 depending on workload and breakpoints. Default: 30000.
+*   `timeout`: Timeout in milliseconds to wait for action completion. Guidance: **STEP_\***/**PAUSE** usually 5000-15000; **WAIT_FOR_PAUSE** usually 30000-120000 depending on workload and breakpoints. Default: 30000.
     
-*   `eventsLimit`: Maximum number of latest events to drain per event list. For **DRAIN\_EVENTS** this limit is applied independently to `breakpointErrorsTail` and `tracepointOutputsTail`. Default: 100.
+*   `eventsLimit`: Maximum number of latest events to drain per event list. For **DRAIN_EVENTS** this limit is applied independently to `breakpointErrorsTail` and `tracepointOutputsTail`. Default: 100.
     
 *   `clearEventsAfterRead`: Compatibility flag. Returned events are always removed from internal buffers, regardless of this value.
     
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_evaluate\_expression
+xdebug_evaluate_expression
 
 Evaluates an expression in the context of the current stack frame. Use this tool to compute values, call methods, or inspect expressions during debugging.
 
@@ -492,7 +492,7 @@ Next call:
 
 *   `sessionId`: Debug session ID. Use the current ID returned by `[xdebug_get_debugger_status](about:blank#xdebug_get_debugger_status)` or `[xdebug_start_debugger_session](about:blank#xdebug_start_debugger_session)`. If a session has stopped, timed out, or disappeared, refresh the session list before reusing an old ID. Format: uses session name as ID by default; if multiple sessions share the same name, ID is `<sessionName>#<executionId>`. If null and exactly one active session exists, it is selected automatically. If multiple sessions are active and `sessionId` is omitted, the call fails. Default: null.
     
-*   `frameIndex`: Stack frame index as integer (0 = top frame). Obtain this from the current paused `[xdebug_get_stack](about:blank#xdebug_get_stack)` result; do not reuse a cached frame index after **RESUME**, **STEP\_\***, `xdebug_run_to_line`, or any change in paused location. If null, uses the top frame. Default: null.
+*   `frameIndex`: Stack frame index as integer (0 = top frame). Obtain this from the current paused `[xdebug_get_stack](about:blank#xdebug_get_stack)` result; do not reuse a cached frame index after **RESUME**, **STEP_\***, `xdebug_run_to_line`, or any change in paused location. If null, uses the top frame. Default: null.
     
 *   `expression`: Expression to evaluate in the current context. Pass raw expression text in the language of the current frame; do not pass JSON-escaped payloads or literal backslash-escaped quoted text.
     
@@ -501,7 +501,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_get\_debugger\_status
+xdebug_get_debugger_status
 
 Returns the current status of the debugger including all active debug sessions. Use this tool to get an overview of all running debug sessions and their states.
 
@@ -524,7 +524,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_get\_frame\_values
+xdebug_get_frame_values
 
 Returns the values visible in the specified stack frame as a tree structure. Use this tool to inspect local variables, parameters, and fields or other values available at a specific point in the call stack.
 
@@ -546,21 +546,21 @@ Next call:
     
 *   Use `[xdebug_evaluate_expression](about:blank#xdebug_evaluate_expression)` for computed checks in the same frame.
     
-*   Do not reuse a cached `frameIndex` after **RESUME**, **STEP\_\***, `xdebug_run_to_line`, or any change in paused location.
+*   Do not reuse a cached `frameIndex` after **RESUME**, **STEP_\***, `xdebug_run_to_line`, or any change in paused location.
     
 
 **Parameters:**
 
 *   `sessionId`: Debug session ID. Use the current ID returned by `[xdebug_get_debugger_status](about:blank#xdebug_get_debugger_status)` or `[xdebug_start_debugger_session](about:blank#xdebug_start_debugger_session)`. If a session has stopped, timed out, or disappeared, refresh the session list before reusing an old ID. Format: uses session name as ID by default; if multiple sessions share the same name, ID is `<sessionName>#<executionId>`. If null and exactly one active session exists, it is selected automatically. If multiple sessions are active and `sessionId` is omitted, the call fails. Default: null.
     
-*   `frameIndex`: Stack frame index as integer (0 = top frame). Obtain this from the current paused `[xdebug_get_stack](about:blank#xdebug_get_stack)` result; do not reuse a cached frame index after **RESUME**, **STEP\_\***, `xdebug_run_to_line`, or any change in paused location. If null, uses the top frame. Default: null.
+*   `frameIndex`: Stack frame index as integer (0 = top frame). Obtain this from the current paused `[xdebug_get_stack](about:blank#xdebug_get_stack)` result; do not reuse a cached frame index after **RESUME**, **STEP_\***, `xdebug_run_to_line`, or any change in paused location. If null, uses the top frame. Default: null.
     
 *   `depth`: Maximum depth for expanding children of the evaluated result (0 = value only, 1 = immediate children, 2 = children + grandchildren, etc.). Default: 0.
     
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_get\_stack
+xdebug_get_stack
 
 Returns the call stack for a thread in the debug session. Use this tool to see the sequence of method calls that led to the current execution point.
 
@@ -600,7 +600,7 @@ Next call:
 
 *   Use frame index from the current paused result in `[xdebug_get_frame_values](about:blank#xdebug_get_frame_values)`, `[xdebug_get_value_by_path](about:blank#xdebug_get_value_by_path)`, or `[xdebug_evaluate_expression](about:blank#xdebug_evaluate_expression)`.
     
-*   Do not reuse a cached `frameIndex` after **RESUME**, **STEP\_\***, `xdebug_run_to_line`, or any change in paused location.
+*   Do not reuse a cached `frameIndex` after **RESUME**, **STEP_\***, `xdebug_run_to_line`, or any change in paused location.
     
 
 **Parameters:**
@@ -616,7 +616,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_get\_threads
+xdebug_get_threads
 
 Returns the list of threads in the debug session. Use this tool to see all threads and their current status.
 
@@ -672,7 +672,7 @@ Schema fields include:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_get\_value\_by\_path
+xdebug_get_value_by_path
 
 Gets the value of a nested object by following a path of property names. Use this tool to drill down into complex objects and inspect their nested properties.
 
@@ -698,7 +698,7 @@ Example:
     
 *   Use exact child names from the current paused `[xdebug_get_frame_values](about:blank#xdebug_get_frame_values)`/ previous `[xdebug_get_value_by_path](about:blank#xdebug_get_value_by_path)` output because index node names may differ by language/debugger (for example, `"[0]"` vs `"0"`).
     
-*   Refresh `path` tokens after **RESUME**, **STEP\_\***, `xdebug_run_to_line`, or any other change in paused location.
+*   Refresh `path` tokens after **RESUME**, **STEP_\***, `xdebug_run_to_line`, or any other change in paused location.
     
 
 Next call:
@@ -712,7 +712,7 @@ Next call:
 
 *   `sessionId`: Debug session ID. Use the current ID returned by `[xdebug_get_debugger_status](about:blank#xdebug_get_debugger_status)` or `[xdebug_start_debugger_session](about:blank#xdebug_start_debugger_session)`. If a session has stopped, timed out, or disappeared, refresh the session list before reusing an old ID. Format: uses session name as ID by default; if multiple sessions share the same name, ID is `<sessionName>#<executionId>`. If null and exactly one active session exists, it is selected automatically. If multiple sessions are active and `sessionId` is omitted, the call fails. Default: null.
     
-*   `frameIndex`: Stack frame index as integer (0 = top frame). Obtain this from the current paused `[xdebug_get_stack](about:blank#xdebug_get_stack)` result; do not reuse a cached frame index after **RESUME**, **STEP\_\***, `xdebug_run_to_line`, or any change in paused location. If null, uses the top frame. Default: null.
+*   `frameIndex`: Stack frame index as integer (0 = top frame). Obtain this from the current paused `[xdebug_get_stack](about:blank#xdebug_get_stack)` result; do not reuse a cached frame index after **RESUME**, **STEP_\***, `xdebug_run_to_line`, or any change in paused location. If null, uses the top frame. Default: null.
     
 *   `path`: List of child names to navigate through, e.g. `['myObject', 'field', 'subField']` or `['items', '[0]', 'name']`. Use exact node names from the current paused `[xdebug_get_frame_values](about:blank#xdebug_get_frame_values)`/`[xdebug_get_value_by_path](about:blank#xdebug_get_value_by_path)` output and refresh stale path tokens after the paused location changes.
     
@@ -721,7 +721,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_list\_breakpoints
+xdebug_list_breakpoints
 
 Lists all breakpoints in the project or in a specific file. Use this tool to see all currently set breakpoints and their properties.
 
@@ -748,7 +748,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_remove\_breakpoint
+xdebug_remove_breakpoint
 
 Removes breakpoints filtered by owner and optional selectors. Use this tool to remove previously set breakpoints.
 
@@ -787,7 +787,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_run\_to\_line
+xdebug_run_to_line
 
 Resumes execution to a target line. Use this tool to run until a specific source position without manually stepping.
 
@@ -827,7 +827,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_set\_breakpoint
+xdebug_set_breakpoint
 
 Creates or updates a breakpoint. Use this tool to set line breakpoints, update existing breakpoints by ID, and control tracepoint/logging behavior.
 
@@ -911,7 +911,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_set\_variable
+xdebug_set_variable
 
 Mutates a variable value by path in the selected stack frame. Use this tool to change state during debugging.
 
@@ -942,7 +942,7 @@ Next call:
 
 *   `sessionId`: Debug session ID. Use the current ID returned by `[xdebug_get_debugger_status](about:blank#xdebug_get_debugger_status)` or `[xdebug_start_debugger_session](about:blank#xdebug_start_debugger_session)`. If a session has stopped, timed out, or disappeared, refresh the session list before reusing an old ID. Format: uses session name as ID by default; if multiple sessions share the same name, ID is `<sessionName>#<executionId>`. If null and exactly one active session exists, it is selected automatically. If multiple sessions are active and `sessionId` is omitted, the call fails. Default: null.
     
-*   `frameIndex`: Stack frame index as integer (0 = top frame). Obtain this from the current paused `[xdebug_get_stack](about:blank#xdebug_get_stack)` result; do not reuse a cached frame index after **RESUME**, **STEP\_\***, `xdebug_run_to_line`, or any change in paused location. If null, uses the top frame. Default: null.
+*   `frameIndex`: Stack frame index as integer (0 = top frame). Obtain this from the current paused `[xdebug_get_stack](about:blank#xdebug_get_stack)` result; do not reuse a cached frame index after **RESUME**, **STEP_\***, `xdebug_run_to_line`, or any change in paused location. If null, uses the top frame. Default: null.
     
 *   `path`: Path to target value, same format as `[xdebug_get_value_by_path](about:blank#xdebug_get_value_by_path)`. Use exact node names from the current paused `[xdebug_get_frame_values](about:blank#xdebug_get_frame_values)`/`[xdebug_get_value_by_path](about:blank#xdebug_get_value_by_path)` output and refresh stale path tokens after the paused location changes.
     
@@ -951,7 +951,7 @@ Next call:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-xdebug\_start\_debugger\_session
+xdebug_start_debugger_session
 
 Start a debugger session for either an existing run configuration by name or a code location (`filePath` + `line`) in the current project. Use this tool to start a debugger session. Use this tool with either an existing run configuration name, or with `filePath` + `line`. When using `filePath` + `line`, a line with a runnable method such as `main`, a test, or another executable entry point will almost always work. If you are unsure which line to use, `[get_run_configurations](about:blank#get_run_configurations)` can help discover runnable locations in the file. The session will be started, and you can then use other debugger tools to control execution.
 
@@ -1024,7 +1024,7 @@ Returns a flat result with debugger session metadata plus the execution snapshot
 
 ### Execution tools
 
-execute\_run\_configuration
+execute_run_configuration
 
 Run either an existing run configuration by name or a temporary run configuration created from a code location (`filePath` + `line`) in the current project, then wait up to the specified timeout for it to finish. Use this tool with either a configuration name returned by `[get_run_configurations](about:blank#get_run_configurations)`, or with a run point (`filePath` + `line`) returned by `get_run_configurations(filePath = ...)`.
 
@@ -1064,7 +1064,7 @@ Returns the execution result including current output snapshot, optional exit co
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-get\_run\_configurations
+get_run_configurations
 
 Returns either project run configurations or executable code locations, depending on the input.
 
@@ -1083,7 +1083,7 @@ With `filePath`, this tool discovers executable entry points (run points) in tha
 
 ### File tools
 
-create\_new\_file
+create_new_file
 
 Creates a new file at the specified path within the project directory. Optionally, writes the provided text into the file.
 
@@ -1100,7 +1100,7 @@ Any required parent directories are created automatically.
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-get\_all\_open\_file\_paths
+get_all_open_file_paths
 
 Returns the paths of all files opened for editing in the active editor or any other open editors, relative to the project root. Use this tool to explore currently open editors.
 
@@ -1109,7 +1109,7 @@ Returns the paths of all files opened for editing in the active editor or any ot
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-list\_directory\_tree
+list_directory_tree
 
 Provides a tree representation of the specified directory in the pseudo-graphic format, similar to the `tree` utility. Use this tool to explore the contents of a directory or the entire project. Prefer this tool over command-line utilities like `ls` or `dir` for directory listing.
 
@@ -1124,7 +1124,7 @@ Provides a tree representation of the specified directory in the pseudo-graphic 
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-open\_file\_in\_editor
+open_file_in_editor
 
 Opens the specified file in the JetBrains IDE editor. Requires a `filePath` parameter containing the path to the file to open. The file path can be absolute or relative to the project root.
 
@@ -1137,7 +1137,7 @@ Opens the specified file in the JetBrains IDE editor. Requires a `filePath` para
 
 ### Formatting tools
 
-reformat\_file
+reformat_file
 
 Reformats the specified file in the JetBrains IDE. Use this tool to apply code formatting to a file identified by its path.
 
@@ -1150,7 +1150,7 @@ Reformats the specified file in the JetBrains IDE. Use this tool to apply code f
 
 ### Inspection Generator MCP Tools
 
-validate\_inspection\_kts
+validate_inspection_kts
 
 Validates an inspection.kts script against specification examples. Compiles the inspection and runs it against positive/negative examples. Returns compilation status and detailed verification results.
 
@@ -1169,7 +1169,7 @@ Returns overall success, per-example results, and aggregation statistics.
 
 ### Inspection KTS MCP tools
 
-generate\_inspection\_kts\_api
+generate_inspection_kts_api
 
 Returns the Inspection KTS API documentation for the target language. Provides available classes and functions that can be used when writing inspection.kts files.
 
@@ -1182,7 +1182,7 @@ Returns the Inspection KTS API documentation for the target language. Provides a
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-generate\_inspection\_kts\_examples
+generate_inspection_kts_examples
 
 Returns example inspection.kts templates for the target language to guide code generation. Provides XML-wrapped examples showing how to write inspections using the InspectionKts API.
 
@@ -1195,7 +1195,7 @@ Returns example inspection.kts templates for the target language to guide code g
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-generate\_psi\_tree
+generate_psi_tree
 
 Creates a PSI tree for the provided Java or Kotlin code and returns it as indented text. Use this tool to understand the PSI structure of code snippets when writing inspections. The output shows element types and their hierarchy, with hints about when `node.children()` is needed.
 
@@ -1208,7 +1208,7 @@ Creates a PSI tree for the provided Java or Kotlin code and returns it as indent
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-run\_inspection\_kts
+run_inspection_kts
 
 Compiles an inspection.kts script and runs it against a target file. Returns compilation errors if any, or the list of problems found by the inspection. Use this tool to test inspection.kts scripts during development.
 
@@ -1225,7 +1225,7 @@ Compiles an inspection.kts script and runs it against a target file. Returns com
 
 ### Patch tools
 
-apply\_patch
+apply_patch
 
 Applies a patch in the Codex `apply_patch` format or the unified Git diff format. Supports Add, Delete, and Update operations, with an optional move-to path for updates. Paths must stay inside the project directory.
 
@@ -1240,7 +1240,7 @@ Applies a patch in the Codex `apply_patch` format or the unified Git diff format
 
 ### Read tools
 
-read\_file
+read_file
 
 Reads a file in the project directory or from any project dependency or other project source root. Can read sources inside Jar/Jrt files and decompile Java class files inside Jar/Jrt files or on disk. Returns numbered lines (1-indexed) as text.
 
@@ -1305,7 +1305,7 @@ Mode details:
 
 ### Refactoring tools
 
-rename\_refactoring
+rename_refactoring
 
 Renames a symbol (variable, function, class, etc.) in the specified file. Use this tool to perform rename refactoring operations.
 
@@ -1326,7 +1326,7 @@ The tool returns a success message if the rename operation was successful, or an
 
 ### Search tools
 
-search\_file
+search_file
 
 Searches for files by glob pattern within the project. Use this tool when you need to match file paths using glob syntax.
 
@@ -1356,7 +1356,7 @@ Patterns without `'/'` are treated as `"**/pattern"`. `paths` are optional addit
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-search\_regex
+search_regex
 
 Searches for regex matches within project files. Use this tool when you need regex search with snippet results. Results include match coordinates when available (1-based line/column, 0-based offsets).
 
@@ -1382,7 +1382,7 @@ Examples:
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-search\_symbol
+search_symbol
 
 Searches for symbols (classes, methods, fields). Use this tool for semantic lookup by identifier fragments. Results include match coordinates when available (1-based line/column, 0-based offsets).
 
@@ -1403,7 +1403,7 @@ By default, this searches project symbols only. If you don't find a suitable res
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-search\_text
+search_text
 
 Searches for a text substring within project files. Use this tool for fast text search with snippet results. Results include match coordinates when available (1-based line/column, 0-based offsets).
 
@@ -1431,7 +1431,7 @@ Examples:
 
 ### Skill Search tools
 
-skill\_search
+skill_search
 
 Performs a unified project search with an explicit mode:
 
@@ -1465,7 +1465,7 @@ Symbol search is project-focused by default. If you do not find a suitable symbo
 
 ### Terminal tools
 
-execute\_terminal\_command
+execute_terminal_command
 
 Executes a specified shell command in the IDE's integrated terminal. Use this tool to run terminal commands within the IDE environment.
 
@@ -1508,7 +1508,7 @@ Returns possible responses:
 
 ### Universal tools
 
-execute\_tool
+execute_tool
 
 Universal tool executor that dynamically invokes a specific IDE MCP tool from a command-line string.
 
@@ -1521,7 +1521,7 @@ Universal tool executor that dynamically invokes a specific IDE MCP tool from a 
 
 ### VCS tools
 
-get\_repositories
+get_repositories
 
 Retrieves the list of VCS roots in the project. Use this tool to identify all repositories in a multi-repository project.
 
@@ -1530,7 +1530,7 @@ Retrieves the list of VCS roots in the project. Use this tool to identify all re
 *   `projectPath`: The project path. Always provide this value if known to reduce ambiguous calls. If only the current working directory is known, you can use it as the project path.
     
 
-git\_status
+git_status
 
 Retrieves the Git status for one or more repositories in the current project. Returns porcelain-style index and worktree status codes and summary counters. By default, all Git repositories are returned.
 
